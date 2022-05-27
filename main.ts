@@ -1,7 +1,11 @@
 import "reflect-metadata";
 import express, { Request, Response } from "express";
-import connection from "./config/connection";
-import { Dog } from "./model/models";
+import connection from "./config/Connection";
+import { initDogrouter } from "./routes/Dog.routes";
+import { initGoogleSheetrouter } from "./routes/GoogleSheet.routes";
+import { initUserrouter } from "./routes/User.routes";
+
+// import { Dog } from "./model/models";
 
 const app = express();
 
@@ -11,36 +15,9 @@ app.get("/", (req: Request, res: Response): Response => {
   return res.json({ message: "Sequelize Example 🤟" });
 });
 
-app.get("/dogs", async (req: Request, res: Response): Promise<Response> => {
-    const allDogs: Dog[] = await Dog.findAll();
-    return res.status(200).json(allDogs);
-  });
-  
-  app.get("/dogs/:id", async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    const dog: Dog | null = await Dog.findByPk(id);
-    return res.status(200).json(dog);
-  });
-  
-  app.post("/dogs", async (req: Request, res: Response): Promise<Response> => {
-    const dog: Dog = await Dog.create({ ...req.body });
-    return res.status(201).json(dog);
-  });
-  
-  app.put("/dogs/:id", async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    await Dog.update({ ...req.body }, { where: { id } });
-    const updatedDog: Dog | null = await Dog.findByPk(id);
-    return res.status(200).json(updatedDog);
-  });
-  
-  app.delete("/dogs/:id", async (req: Request, res: Response): Promise<Response> => {
-      const { id } = req.params;
-      const deletedDog: Dog | null = await Dog.findByPk(id);
-      await Dog.destroy({ where: { id } });
-      return res.status(200).json(deletedDog);
-    }
-  );
+initDogrouter(app);
+initGoogleSheetrouter(app);
+initUserrouter(app);
 
 const start = async (): Promise<void> => {
   try {
