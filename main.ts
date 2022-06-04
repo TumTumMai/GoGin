@@ -5,6 +5,7 @@ import { initDogrouter } from "./routes/Dog.routes";
 import { initGoogleSheetrouter } from "./routes/GoogleSheet.routes";
 import { initUserrouter } from "./routes/User.routes";
 
+require("./auth/passport");
 // import { Dog } from "./model/models";
 
 const app = express();
@@ -22,6 +23,7 @@ initUserrouter(app);
 const start = async (): Promise<void> => {
   try {
     await connection.sync();
+    await connection.authenticate();
     app.listen(3000, () => {
       console.log("Server started on port 3000");
     });

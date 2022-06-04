@@ -1,6 +1,7 @@
 import { Express } from "express-serve-static-core";
 import {
   addRow,
+  createNewSheets,
   createSheets,
   getMeta,
   getRows,
@@ -12,6 +13,6 @@ export function initGoogleSheetrouter(app: Express) {
   app.get("/rows", getRows);
   app.post("/rows", addRow);
   app.post("/create", createSheets);
-
+  app.post("/createNew", createNewSheets);
   app.put("/updatevalue", updateValue);
 }

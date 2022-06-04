@@ -41,11 +41,25 @@ export class User extends Model {
   })
   address!: string;
 
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  email!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  password!: string;
+
   @HasMany(() => Dog)
   dogs?: Dog[];
 
   @ForeignKey(() => Role)
-  @Column
+  @Column({
+    defaultValue: 1,
+  })
   roldId!: number;
 
   @BelongsTo(() => Role)

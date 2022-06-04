@@ -6,6 +6,19 @@ const auth = new google.auth.GoogleAuth({
   scopes: "https://www.googleapis.com/auth/spreadsheets",
 });
 
+export const createNewSheets = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const client = await auth.getClient();
+  const googleSheets = google.sheets({ version: "v4", auth: client });
+  //   const { title } = req.body;
+
+  const createNewSheets = await googleSheets.spreadsheets.create({});
+
+  return res.status(200).json(createNewSheets);
+};
+
 export const createSheets = async (
   req: Request,
   res: Response
