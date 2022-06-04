@@ -19,6 +19,8 @@ app.get("/", (req: Request, res: Response): Response => {
 initDogrouter(app);
 initGoogleSheetrouter(app);
 initUserrouter(app);
+  
+console.log("test")
 
 const start = async (): Promise<void> => {
   try {
